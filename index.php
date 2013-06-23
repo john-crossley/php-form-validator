@@ -76,30 +76,30 @@ $validator->make($_POST, $rules, $messages);
         <label for="username">Username:</label>
         <input type="text" name="username" id="username" value="<?=$validator->hasValue('username')?>">
         <span class="error">*</span>
-        <small class="error"><?=$validator->first('username')?></small>
+        <small class="error"><?=$validator->hasMessage('username')?></small>
       </div>
       <div>
         <label for="fullname">Full name:</label>
         <input type="text" name="fullname" id="fullname" value="<?=$validator->hasValue('fullname')?>">
-        <small class="error"><?=$validator->first('fullname')?></small>
+        <small class="error"><?=$validator->hasMessage('fullname')?></small>
       </div>
       <div>
         <label for="email">Email:</label>
         <input type="text" name="email" id="email" value="<?=$validator->hasValue('email')?>">
         <span class="error">*</span>
-        <small class="error"><?=$validator->first('email')?></small>
+        <small class="error"><?=$validator->hasMessage('email')?></small>
       </div>
       <div>
         <label for="password">Password:</label>
         <input type="password" name="password" id="password">
         <span class="error">*</span>
-        <small class="error"><?=$validator->first('password')?></small>
+        <small class="error"><?=$validator->hasMessage('password')?></small>
       </div>
       <div>
         <label for="password_again">Password again:</label>
         <input type="password" name="password_again" id="password_again">
         <span class="error">*</span>
-        <small class="error"><?=$validator->first('password_again')?></small>
+        <small class="error"><?=$validator->hasMessage('password_again')?></small>
       </div>
       <div>
         <button type="submit">Create account</button>

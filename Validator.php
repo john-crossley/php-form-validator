@@ -3,7 +3,7 @@
  * Validator Class
  *
  * Validator is a quick and simple mockup of a nice validation
- * system built for Advanced User Manager
+ * system built for Advanced User Manager.
  *
  * @author  John Crossley <hello@phpcodemonkey.com>
  * @package advanced-user-manager
@@ -298,7 +298,7 @@ class Validator
    * @return string            If an error is found then 'error'
    * will be returned.
    */
-  public static function hasError($attribute)
+  public static function hasErrorSession($attribute)
   {
     if (isset($_SESSION['FORM_ERRORS'][$attribute])) {
       $data = $_SESSION['FORM_ERRORS']; // tmp
@@ -332,7 +332,7 @@ class Validator
    * @param  string  $attribute The name of the form attribute
    * @return string            If a value is found then it will be returned.
    */
-  public static function hasValue($attribute)
+  public static function hasValueSession($attribute)
   {
     if (isset($_SESSION['FORM_ERRORS'][$attribute])) {
       $data = $_SESSION['FORM_ERRORS'];
@@ -365,7 +365,7 @@ class Validator
    * @param  string  $attribute The name of the form attribute
    * @return string            If a message is found then it is returned.
    */
-  public static function hasMessage($attribute)
+  public static function hasMessageSession($attribute)
   {
     if (isset($_SESSION['FORM_ERRORS'][$attribute])) {
       $data = $_SESSION['FORM_ERRORS'];
