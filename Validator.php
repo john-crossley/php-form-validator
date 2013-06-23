@@ -264,6 +264,13 @@ class Validator
     }
   }
 
+  public function hasValue($attribute)
+  {
+    if (isset($this->values[$attribute])) {
+      return $this->values[$attribute];
+    }
+  }
+
   public function has($key)
   {
     if (isset($this->errors[$key]))
@@ -274,13 +281,13 @@ class Validator
 
   public function all()
   {
-    return array_flatten($this->messages);
+    return $this->errorMessages;
   }
 
   public function first($key)
   {
-    if (isset($this->messages[$key])) {
-      return $this->messages[$key][0];
+    if (isset($this->errorMessages[$key])) {
+      echo $this->errorMessages[$key][0];
     }
     return false;
   }
@@ -298,7 +305,7 @@ class Validator
     return (empty($this->errors)) ? true : false;
   }
 
-  public function fail()
+  public function fails()
   {
     return (!empty($this->errors)) ? true : false;
   }
