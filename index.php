@@ -11,7 +11,8 @@ $rules = [
 ];
 
 $messages = [
-  'password_again.required' => 'Password again field is required'
+  'password_again.required' => 'Password again field is required',
+  'password.min'            => 'The password requires :min characters man!'
 ];
 
 $validator->make($_POST, $rules, $messages);
