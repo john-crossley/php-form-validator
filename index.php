@@ -4,10 +4,10 @@ $validator = new Validator();
 
 // Define some rules for our form
 $rules = [
-  'username'       => 'required|min:3|max:128',
-  'email'          => 'required|valid_email',
-  'password'       => 'required|min:6',
-  'password_again' => 'required|match:password'
+  'username'       => ['required', 'min:3', 'max:128'],
+  'email'          => ['required', 'valid_email'],
+  'password'       => ['required', 'min:6'],
+  'password_again' => ['required', 'match:password']
 ];
 
 $messages = [
