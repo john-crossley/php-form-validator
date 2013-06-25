@@ -187,10 +187,33 @@ class Validator
     }
   }
 
+  public static function hasMessageSession($attribute)
+  {
+    if (isset($_SESSION['FORM_ERRORS'][$attribute])) {
+      $data = $_SESSION['FORM_ERRORS'];
+      if (isset($data[$attribute]['message'])) {
+        $_SESSION['FORM_ERRORS'][$attribute]['message'] = null;
+        // Return the first error message
+        return $data[$attribute]['message'][0];
+      }
+    }
+  }
+
   public function hasValue($attribute)
   {
     if (isset($this->values[$attribute])) {
       return $this->values[$attribute];
+    }
+  }
+
+  public static function hasValueSession($attribute)
+  {
+    if (isset($_SESSION['FORM_ERRORS'][$attribute])) {
+      $data = $_SESSION['FORM_ERRORS'];
+      if (isset($data[$attribute]['value'])) {
+        $_SESSION['FORM_ERRORS'][$attribute]['value'] = null;
+        return $data[$attribute]['value'];
+      }
     }
   }
 
@@ -201,4 +224,24 @@ class Validator
     }
   }
 
+  public static function hasErrorSesson($attribute)
+  {
+    if (isset($_SESSION['FORM_ERRORS'][$attribute])) {
+      $data = $_SESSION['FORM_ERRORS']; // tmp
+      if ($data[$attribute]['error']) {
+        $_SESSION['FORM_ERRORS'][$attribute]['error'] = null; // Kill it
+        return 'error';
+      }
+    }
+  }
+
+  public function success()
+  {
+    return (empty($this->errors)) ? true : false;
+  }
+
+  public function fail()
+  {
+    return (!empty($this->errors)) ? true : false;
+  }
 }
