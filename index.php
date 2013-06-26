@@ -17,6 +17,7 @@ $messages = [
 
 $validator->make($_POST, $rules, $messages);
 
+// See inside the validator
 // echo "<pre>";
 // print_r($validator);
 // echo "</pre>";
