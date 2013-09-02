@@ -17,7 +17,9 @@ class Validator
     'max'         => 'The :attribute should be a maximum of :max characters',
     'match'       => 'The :attribute fields do not match',
     'unique'      => 'The :attribute has already been taken',
-    'valid_email' => ':email doesn\'t seem to be a valid'
+    'valid_email' => ':email doesn\'t seem to be a valid email',
+    'valid_url'   => ':url doesn\'t seem to be a valid URL',
+    'banned'      => ':email has used a banned domain. Change your email.'
   );
 
   protected $customAttributeMessages = array();
@@ -89,6 +91,10 @@ class Validator
     $this->errors[$attribute] = true;
 
     $this->errorMessages[$attribute][] = $this->createMessage($this->messages[$rule], $data, $rule, $attribute);
+
+    // Store in a session
+    $_SESSION['FORM_ERRORS'][$attribute]['error'] = true;
+    $_SESSION['FORM_ERRORS'][$attribute]['message'] = $this->errorMessages[$attribute];
   }
 
   protected function createMessage($message, $attributes, $rule, $attr)
@@ -117,7 +123,7 @@ class Validator
         break;
 
       case 'min':
-        if (strlen($value) <= $rule[1]) {
+        if (strlen($value) <= $rule[1]-1) {
           $this->storeErrorInformation($attribute, 'min', array(
             ':attribute' => $attribute,
             ':min'       => $rule[1]
@@ -142,12 +148,34 @@ class Validator
         }
         break;
 
+      case 'banned':
+        // Cheap way but works fine
+        $bannedExtensions = explode(' ', $rule[1]);
+        $extension = explode('@', $value);
+        $extension = $extension[1];
+        // Check to see if the clien supplied a banned extension
+        if (in_array($extension, $bannedExtensions)) {
+          $this->storeErrorInformation($attribute, 'banned', array(
+            ':email' => $value
+          ));
+        }
+        break;
+
+      case 'valid_url':
+        if (!filter_var($value, FILTER_VALIDATE_URL)) {
+          $this->storeErrorInformation($attribute, 'valid_url', array(
+            ':url' => $value
+          ));
+        }
+        break;
+
       case 'unique':
         // Client may not have DB accessbile so rather than throwing
         // a nasty fatal we shall check to see if the DB class is
         // available
         if (class_exists('DB')) {
-          if (DB::table($rule[1])->where($attribute, '=', $value)->count()->count > 0) {
+          // Suppress just for now...
+          if (@DB::table($rule[1])->where($attribute, '=', '\''.$value.'\'')->count()->count > 0) {
             $this->storeErrorInformation($attribute, 'unique', array(
               ':attribute' => $attribute
             ));
@@ -175,7 +203,6 @@ class Validator
         break;
 
       default:
-        # code...
         break;
     }
   }
@@ -224,11 +251,11 @@ class Validator
     }
   }
 
-  public static function hasErrorSesson($attribute)
+  public static function hasErrorSession($attribute)
   {
     if (isset($_SESSION['FORM_ERRORS'][$attribute])) {
       $data = $_SESSION['FORM_ERRORS']; // tmp
-      if ($data[$attribute]['error']) {
+      if (isset($data[$attribute]['error'])) {
         $_SESSION['FORM_ERRORS'][$attribute]['error'] = null; // Kill it
         return 'error';
       }
@@ -240,7 +267,7 @@ class Validator
     return (empty($this->errors)) ? true : false;
   }
 
-  public function fail()
+  public function fails()
   {
     return (!empty($this->errors)) ? true : false;
   }
