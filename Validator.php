@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author John Crossley <hello@phpcodemonkey.com>
+ * @copyright Copyright (c) 2013 - John Crossley (http://phpcodemonkey.com)
+ */
 class Validator
 {
 
