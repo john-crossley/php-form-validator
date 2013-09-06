@@ -1,0 +1,9 @@
+<phpunit bootstrap="bootstrap.php"
+         colors="true">
+<testsuites>
+  <testsuite name="Validator Test Suite">
+    <directory>test/</directory>
+    <exclude>src/DB*</exclude>
+  </testsuite>
+</testsuites>
+</phpunit>
