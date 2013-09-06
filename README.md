@@ -34,10 +34,12 @@ Tell the validator we would like to validate the `username` field like so:
 
     …
     $v = new Validator();
+    $bannedEmailExtensions = '@example.com @domain-name.com @fake.co.uk';
     $rules = [
         'username'       => ['required', 'min:3', 'max:62', 'unique:user'],
         'password'       => ['required', 'min:8'],
-        'password_again' => ['required', 'match:password']
+        'password_again' => ['required', 'match:password'],
+        'email'          => ['required', 'valid_email', 'unique:email', 'banned:'.$bannedExtensions]
     ];
 
 As you can see in the `$rules` array we specify several rules for the username input field those are separated by the `|` we have `require, min, max and unique` as mentioned before you may only use the `unique` if you have required the DB.php file.
