@@ -33,6 +33,30 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
     ];
   }
 
+  public function testValidatorValidatesMinAttributeLength()
+  {
+    $v = $this->_validator;
+
+    $post = [
+      'username' => 'ab'
+    ];
+
+    $rules = [
+      'username' => ['min:3']
+    ];
+
+    $v->make($post, $rules);
+
+    $usernameErrors = $v->getAttributeErrorMessages('username');
+    $this->assertEquals('The username should be a minimum of 3 characters', $usernameErrors['min']);
+
+  }
+
+  public function testValidatorValidatesMaxAttributeLength()
+  {
+    $this->markTestIncomplete("Yet to be implemented.");
+  }
+
   public function testValidatorUsesCustomMessageForEmail()
   {
     $validator = $this->_validator;
@@ -45,6 +69,26 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 
     $this->assertEquals($validator->hasMessage('email'), 'This is my custom message for the email.');
   }
+
+  public function testValidatorValidatesInvalidURL()
+  {
+    $v = $this->_validator;
+
+    $post = [
+      'url' => 'http://www.fakeurl.'
+    ];
+
+    $rules = [
+      'url' => ['valid_url']
+    ];
+
+    $v->make($post, $rules);
+
+    $invalidURL = $v->getAttributeErrorMessages('url');
+
+    $this->assertEquals('http://www.fakeurl. doesn\'t seem to be a valid URL', $invalidURL['valid_url']);
+  }
+
 
   public function testValidatorUsesCustomMessages()
   {
