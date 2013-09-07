@@ -5,7 +5,6 @@
  */
 class Validator
 {
-
   /**
    * array(
    *   'username' => 'admin',
@@ -26,7 +25,7 @@ class Validator
     'unique'      => 'The :attribute has already been taken',
     'valid_email' => ':email doesn\'t seem to be a valid email',
     'valid_url'   => ':url doesn\'t seem to be a valid URL',
-    'banned'      => ':email has used a banned domain. Change your email.'
+    'banned'      => ':email is using a banned extension. Please use another email address.'
   );
 
   /**
@@ -301,9 +300,6 @@ class Validator
   public function hasMessage($attribute)
   {
     return $this->hasMessageSession($attribute);
-    // if (isset($this->errorMessages[$attribute])) {
-    //   return $this->errorMessages[$attribute][0];
-    // }
   }
 
   /**
@@ -338,10 +334,6 @@ class Validator
   public function hasValue($attribute)
   {
     return $this->hasValueSession($attribute); // Maybe?
-    // if (isset($this->values[$attribute])) {
-    //   return $this->values[$attribute];
-    // }
-    // return false;
   }
 
   /**
@@ -374,9 +366,6 @@ class Validator
   public function hasError($attribute)
   {
     return $this->hasErrorSession($attribute);
-    // if (isset($this->errors[$attribute]))
-    //   return true;
-    // return false;
   }
 
   /**
